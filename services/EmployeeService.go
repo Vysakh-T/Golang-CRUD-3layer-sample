@@ -1,8 +1,6 @@
 package services
 
 import (
-	"log"
-
 	"src/sampleCRUD/models"
 	"src/sampleCRUD/repositories"
 )
@@ -19,7 +17,7 @@ func GetEmployee(id int64) models.Employee {
 	employee, err := repositories.Getemployee(int64(id))
 
 	if err != nil {
-		log.Fatalf("Unable to get employee. %v", err)
+		panic("Unable to get employee")
 	}
 
 	return employee
@@ -31,7 +29,7 @@ func GetAllEmployees() []models.Employee {
 	employees, err := repositories.GetAllemployees()
 
 	if err != nil {
-		log.Fatalf("Unable to get all employee. %v", err)
+		panic("Unable to get all employee")
 	}
 
 	return employees

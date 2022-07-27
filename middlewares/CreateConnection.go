@@ -31,14 +31,14 @@ func CreateConnection() *sql.DB {
 	db, err := sql.Open("postgres", psqlInfo)
 
 	if err != nil {
-		panic(err)
+		panic("Connection Refused")
 	}
 
 	// check the connection
 	err = db.Ping()
 
 	if err != nil {
-		panic(err)
+		panic("Connection not working properly!")
 	}
 
 	fmt.Println("Successfully connected!")

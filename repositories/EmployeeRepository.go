@@ -3,13 +3,10 @@ package repositories
 import (
 	"database/sql"
 	"fmt"
-	"log"
 
 	"src/sampleCRUD/middlewares"
 	"src/sampleCRUD/models"
 )
-
-//------------------------- handler functions ----------------
 
 // insert one employee in the DB
 
@@ -26,7 +23,7 @@ func InsertEmployee(employee models.Employee) int64 {
 	err := db.QueryRow(sqlStatement, employee.Name, employee.Age).Scan(&id)
 
 	if err != nil {
-		log.Fatalf("Unable to execute the query. %v", err)
+		panic("Unable to execute the query")
 	}
 
 	fmt.Printf("Inserted a single record %v", id)
@@ -57,10 +54,8 @@ func Getemployee(id int64) (models.Employee, error) {
 	case nil:
 		return employee, nil
 	default:
-		log.Fatalf("Unable to scan the row. %v", err)
+		panic("Unable to scan the row")
 	}
-
-	return employee, err
 }
 
 // get one employee from the DB by its employeeid
@@ -78,7 +73,7 @@ func GetAllemployees() ([]models.Employee, error) {
 	rows, err := db.Query(sqlStatement)
 
 	if err != nil {
-		log.Fatalf("Unable to execute the query. %v", err)
+		panic("Unable to execute the query")
 	}
 
 	defer rows.Close()
@@ -89,7 +84,7 @@ func GetAllemployees() ([]models.Employee, error) {
 		err = rows.Scan(&employee.ID, &employee.Name, &employee.Age)
 
 		if err != nil {
-			log.Fatalf("Unable to scan the row. %v", err)
+			panic("Unable to scan the row")
 		}
 
 		employees = append(employees, employee)
@@ -112,13 +107,13 @@ func Updateemployee(id int64, employee models.Employee) int64 {
 	res, err := db.Exec(sqlStatement, id, employee.Name, employee.Age)
 
 	if err != nil {
-		log.Fatalf("Unable to execute the query. %v", err)
+		panic("Unable to execute the query.")
 	}
 
 	rowsAffected, err := res.RowsAffected()
 
 	if err != nil {
-		log.Fatalf("Error while checking the affected rows. %v", err)
+		panic("Error while checking the affected rows")
 	}
 
 	fmt.Printf("Total rows/record affected %v", rowsAffected)
@@ -139,13 +134,13 @@ func Deleteemployee(id int64) int64 {
 	res, err := db.Exec(sqlStatement, id)
 
 	if err != nil {
-		log.Fatalf("Unable to execute the query. %v", err)
+		panic("Unable to execute the query")
 	}
 
 	rowsAffected, err := res.RowsAffected()
 
 	if err != nil {
-		log.Fatalf("Error while checking the affected rows. %v", err)
+		panic("Error while checking the affected rows")
 	}
 
 	fmt.Printf("Total rows/record affected %v", rowsAffected)

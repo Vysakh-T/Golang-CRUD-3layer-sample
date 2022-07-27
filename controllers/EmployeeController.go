@@ -3,7 +3,6 @@ package controllers
 import (
 	"encoding/json" // package to encode and decode the json into struct and vice versa
 	"fmt"
-	"log"
 	"net/http" // used to access the request and response object of the api
 	"strconv"
 
@@ -44,7 +43,7 @@ func createEmployee(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&employee)
 
 	if err != nil {
-		log.Fatalf("Unable to decode the request body.  %v", err)
+		panic("Unable to decode the request body")
 	}
 
 	insertID := services.InsertEmployee(employee)
@@ -69,7 +68,7 @@ func getEmployee(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(params["id"])
 
 	if err != nil {
-		log.Fatalf("Unable to convert the string into int.  %v", err)
+		panic("Unable to convert the string into int")
 	}
 
 	// call the getUser function with employee id to retrieve a single employee
@@ -105,7 +104,7 @@ func updateEmployee(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(params["id"])
 
 	if err != nil {
-		log.Fatalf("Unable to convert the string into int.  %v", err)
+		panic("Unable to convert the string into int")
 	}
 
 	// create an empty employee of type models.Employee
@@ -115,7 +114,7 @@ func updateEmployee(w http.ResponseWriter, r *http.Request) {
 	err = json.NewDecoder(r.Body).Decode(&employee)
 
 	if err != nil {
-		log.Fatalf("Unable to decode the request body.  %v", err)
+		panic("Unable to decode the request body")
 	}
 
 	// call update employee to update the employee
@@ -149,7 +148,7 @@ func deleteEmployee(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(params["id"])
 
 	if err != nil {
-		log.Fatalf("Unable to convert the string into int.  %v", err)
+		panic("Unable to convert the string into int")
 	}
 
 	// call the deleteUser, convert the int to int64
